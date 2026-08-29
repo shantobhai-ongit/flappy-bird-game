@@ -15,17 +15,17 @@ const bird = {
     width: 30,
     height: 30,
     velocity: 0,
-    gravity: 0.5,
-    jump: -10,
+    gravity: 0.4,
+    jump: -8,
     color: '#FFD700'
 };
 
 // Pipes
 let pipes = [];
 const pipeWidth = 60;
-const pipeGap = 120;
-const pipeSpeed = 4;
-const pipeFrequency = 90; // pixels between pipes
+const pipeGap = 180; // Increased gap for easier gameplay
+const pipeSpeed = 3; // Slightly slower
+const pipeFrequency = 150; // More space between pipes (was 90)
 
 // Initialize best score display
 document.getElementById('bestScore').textContent = bestScore;
@@ -39,6 +39,7 @@ canvas.addEventListener('click', jumpBird);
 document.addEventListener('keydown', (e) => {
     if (e.code === 'Space') {
         jumpBird();
+        e.preventDefault();
     }
 });
 
@@ -72,7 +73,7 @@ function restartGame() {
 }
 
 function gameLoop() {
-    // Clear canvas
+    // Draw sky background
     const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
     gradient.addColorStop(0, '#87CEEB');
     gradient.addColorStop(1, '#E0F6FF');
@@ -90,7 +91,8 @@ function gameLoop() {
             pipes.push({
                 x: canvas.width,
                 gapStart: gapStart,
-                gapEnd: gapStart + pipeGap
+                gapEnd: gapStart + pipeGap,
+                scored: false
             });
         }
         
@@ -98,26 +100,39 @@ function gameLoop() {
         for (let i = pipes.length - 1; i >= 0; i--) {
             pipes[i].x -= pipeSpeed;
             
-            // Remove off-screen pipes
-            if (pipes[i].x + pipeWidth < 0) {
-                pipes.splice(i, 1);
+            // Score when bird passes pipe
+            if (pipes[i].x + pipeWidth < bird.x && !pipes[i].scored) {
+                pipes[i].scored = true;
                 score++;
                 document.getElementById('score').textContent = score;
             }
+            
+            // Remove off-screen pipes
+            if (pipes[i].x + pipeWidth < 0) {
+                pipes.splice(i, 1);
+            }
         }
         
-        // Check collision with pipes or boundaries
+        // Check collision with boundaries
         if (bird.y + bird.height > canvas.height || bird.y < 0) {
             endGame();
         }
         
+        // Check collision with pipes
         for (let pipe of pipes) {
-            if (
-                bird.x < pipe.x + pipeWidth &&
-                bird.x + bird.width > pipe.x &&
-                (bird.y < pipe.gapStart || bird.y + bird.height > pipe.gapEnd)
-            ) {
-                endGame();
+            // Improved collision detection with padding
+            const birdLeft = bird.x;
+            const birdRight = bird.x + bird.width;
+            const birdTop = bird.y;
+            const birdBottom = bird.y + bird.height;
+            
+            const pipeLeft = pipe.x;
+            const pipeRight = pipe.x + pipeWidth;
+            
+            if (birdRight > pipeLeft && birdLeft < pipeRight) {
+                if (birdTop < pipe.gapStart || birdBottom > pipe.gapEnd) {
+                    endGame();
+                }
             }
         }
     }
@@ -130,7 +145,7 @@ function gameLoop() {
         // Bottom pipe
         ctx.fillRect(pipe.x, pipe.gapEnd, pipeWidth, canvas.height - pipe.gapEnd);
         
-        // Pipe decorations
+        // Pipe decorations (lips)
         ctx.fillStyle = '#27ae60';
         ctx.fillRect(pipe.x - 2, pipe.gapStart - 8, pipeWidth + 4, 8);
         ctx.fillRect(pipe.x - 2, pipe.gapEnd, pipeWidth + 4, 8);
@@ -143,18 +158,19 @@ function gameLoop() {
     ctx.arc(bird.x + bird.width / 2, bird.y + bird.height / 2, bird.width / 2, 0, Math.PI * 2);
     ctx.fill();
     
-    // Draw bird eye
+    // Draw bird eye (white)
     ctx.fillStyle = 'white';
     ctx.beginPath();
     ctx.arc(bird.x + bird.width / 2 + 5, bird.y + bird.height / 2 - 5, 4, 0, Math.PI * 2);
     ctx.fill();
     
+    // Draw bird eye (black pupil)
     ctx.fillStyle = 'black';
     ctx.beginPath();
     ctx.arc(bird.x + bird.width / 2 + 6, bird.y + bird.height / 2 - 5, 2, 0, Math.PI * 2);
     ctx.fill();
     
-    // Draw bird wing
+    // Draw bird wing outline
     ctx.strokeStyle = bird.color;
     ctx.lineWidth = 2;
     ctx.beginPath();
