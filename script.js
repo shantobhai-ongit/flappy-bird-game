@@ -23,9 +23,9 @@ const bird = {
 // Pipes
 let pipes = [];
 const pipeWidth = 60;
-const pipeGap = 250; // Much larger gap for very easy gameplay
-const pipeSpeed = 2; // Even slower speed
-const pipeFrequency = 200; // More space between pipes
+const pipeGap = 250; // Large gap for very easy gameplay
+const pipeSpeed = 2; // Slow speed
+const pipeFrequency = 280; // Much more space between pipes (250-300 range)
 
 // Initialize best score display
 document.getElementById('bestScore').textContent = bestScore;
