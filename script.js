@@ -15,17 +15,17 @@ const bird = {
     width: 30,
     height: 30,
     velocity: 0,
-    gravity: 0.4,
-    jump: -8,
+    gravity: 0.3,
+    jump: -7,
     color: '#FFD700'
 };
 
 // Pipes
 let pipes = [];
 const pipeWidth = 60;
-const pipeGap = 180; // Increased gap for easier gameplay
-const pipeSpeed = 3; // Slightly slower
-const pipeFrequency = 150; // More space between pipes (was 90)
+const pipeGap = 250; // Much larger gap for very easy gameplay
+const pipeSpeed = 2; // Even slower speed
+const pipeFrequency = 200; // More space between pipes
 
 // Initialize best score display
 document.getElementById('bestScore').textContent = bestScore;
