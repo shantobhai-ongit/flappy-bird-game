@@ -15,13 +15,33 @@ body {
     animation: backgroundShift 10s ease-in-out infinite alternate;
 }
 
+body:fullscreen {
+    padding: 0;
+    background: #111827;
+}
+
+body:fullscreen .container {
+    width: 100vw;
+    height: 100vh;
+    max-width: none;
+    border-radius: 0;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.12);
+}
+
+body:fullscreen #gameCanvas {
+    width: min(92vw, 900px);
+    height: min(78vh, 900px);
+    object-fit: contain;
+    margin: 0 auto 10px;
+}
+
 @keyframes backgroundShift {
-    0% {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    }
-    100% {
-        background: linear-gradient(135deg, #4f46e5 0%, #ec4899 100%);
-    }
+    0% { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+    100% { background: linear-gradient(135deg, #4f46e5 0%, #ec4899 100%); }
 }
 
 .container {
@@ -37,12 +57,8 @@ body {
 }
 
 @keyframes floatCard {
-    0%, 100% {
-        transform: translateY(0px);
-    }
-    50% {
-        transform: translateY(-8px);
-    }
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
 }
 
 h1 {
@@ -54,14 +70,8 @@ h1 {
 }
 
 @keyframes titleGlow {
-    from {
-        transform: scale(1);
-        text-shadow: 0 0 0 rgba(102, 126, 234, 0);
-    }
-    to {
-        transform: scale(1.05);
-        text-shadow: 0 0 18px rgba(102, 126, 234, 0.35);
-    }
+    from { transform: scale(1); text-shadow: 0 0 0 rgba(102, 126, 234, 0); }
+    to { transform: scale(1.05); text-shadow: 0 0 18px rgba(102, 126, 234, 0.35); }
 }
 
 .game-info {
@@ -77,23 +87,12 @@ h1 {
     transition: transform 0.2s ease, color 0.2s ease;
 }
 
-.score-pop {
-    animation: scorePop 0.4s ease;
-}
+.score-pop { animation: scorePop 0.4s ease; }
 
 @keyframes scorePop {
-    0% {
-        transform: scale(1);
-        color: #667eea;
-    }
-    50% {
-        transform: scale(1.4);
-        color: #f59e0b;
-    }
-    100% {
-        transform: scale(1);
-        color: #667eea;
-    }
+    0% { transform: scale(1); color: #667eea; }
+    50% { transform: scale(1.4); color: #f59e0b; }
+    100% { transform: scale(1); color: #667eea; }
 }
 
 #gameCanvas {
@@ -107,20 +106,15 @@ h1 {
     max-width: 100%;
     height: auto;
     animation: canvasGlow 3s ease-in-out infinite alternate;
+    touch-action: manipulation;
 }
 
 @keyframes canvasGlow {
-    from {
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-    }
-    to {
-        box-shadow: 0 10px 25px rgba(96, 165, 250, 0.45);
-    }
+    from { box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); }
+    to { box-shadow: 0 10px 25px rgba(96, 165, 250, 0.45); }
 }
 
-.instructions {
-    margin: 20px 0;
-}
+.instructions { margin: 20px 0; }
 
 .instructions p {
     color: #666;
@@ -130,12 +124,8 @@ h1 {
 }
 
 @keyframes textPulse {
-    0%, 100% {
-        opacity: 0.8;
-    }
-    50% {
-        opacity: 1;
-    }
+    0%, 100% { opacity: 0.8; }
+    50% { opacity: 1; }
 }
 
 .btn {
@@ -153,32 +143,19 @@ h1 {
     animation: btnPulse 2s ease-in-out infinite;
 }
 
+.btn-small { padding: 10px 18px; font-size: 0.9em; }
+
 @keyframes btnPulse {
-    0%, 100% {
-        transform: scale(1);
-        box-shadow: 0 10px 20px rgba(102, 126, 234, 0.25);
-    }
-    50% {
-        transform: scale(1.04);
-        box-shadow: 0 15px 30px rgba(102, 126, 234, 0.4);
-    }
+    0%, 100% { transform: scale(1); box-shadow: 0 10px 20px rgba(102, 126, 234, 0.25); }
+    50% { transform: scale(1.04); box-shadow: 0 15px 30px rgba(102, 126, 234, 0.4); }
 }
 
-.btn:hover {
-    transform: translateY(-2px) scale(1.02);
-    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
-}
-
-.btn:active {
-    transform: translateY(0);
-}
+.btn:hover { transform: translateY(-2px) scale(1.02); box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4); }
+.btn:active { transform: translateY(0); }
 
 .game-over-screen {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    inset: 0;
     background: rgba(0, 0, 0, 0.7);
     display: flex;
     justify-content: center;
@@ -196,23 +173,13 @@ h1 {
 }
 
 @keyframes slideIn {
-    from {
-        transform: translateY(-50px);
-        opacity: 0;
-    }
-    to {
-        transform: translateY(0);
-        opacity: 1;
-    }
+    from { transform: translateY(-50px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
 }
 
 @keyframes shakeCard {
-    from {
-        transform: rotate(-1deg) scale(1);
-    }
-    to {
-        transform: rotate(1deg) scale(1.02);
-    }
+    from { transform: rotate(-1deg) scale(1); }
+    to { transform: rotate(1deg) scale(1.02); }
 }
 
 .game-over-content h2 {
@@ -223,43 +190,27 @@ h1 {
 }
 
 @keyframes titleBounce {
-    from {
-        transform: translateY(0);
-    }
-    to {
-        transform: translateY(-6px);
-    }
+    from { transform: translateY(0); }
+    to { transform: translateY(-6px); }
 }
 
-.game-over-content p {
-    color: #333;
-    font-size: 1.2em;
-    margin: 10px 0;
-}
-
-.game-over-content span {
-    color: #667eea;
-    font-weight: bold;
-}
+.game-over-content p { color: #333; font-size: 1.2em; margin: 10px 0; }
+.game-over-content span { color: #667eea; font-weight: bold; }
 
 @media (max-width: 600px) {
-    .container {
-        padding: 20px;
-    }
+    body { padding: 10px; }
+    .container { padding: 20px; }
+    h1 { font-size: 1.8em; }
+    #gameCanvas { max-width: 100%; }
+    .game-over-content { padding: 30px 20px; }
+    .game-over-content h2 { font-size: 1.5em; }
+}
 
-    h1 {
-        font-size: 1.8em;
-    }
-
-    #gameCanvas {
-        max-width: 100%;
-    }
-
-    .game-over-content {
-        padding: 30px 20px;
-    }
-
-    .game-over-content h2 {
-        font-size: 1.5em;
-    }
+@media (orientation: landscape) and (max-height: 600px) {
+    body:fullscreen .container { padding: 4px; }
+    body:fullscreen h1 { font-size: 1.3em; margin-bottom: 4px; }
+    body:fullscreen .game-info { margin-bottom: 4px; }
+    body:fullscreen #gameCanvas { height: 76vh; margin-bottom: 4px; }
+    body:fullscreen .instructions { margin: 4px 0; }
+    body:fullscreen .instructions p { display: none; }
 }
