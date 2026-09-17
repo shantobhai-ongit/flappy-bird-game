@@ -7,6 +7,7 @@ let score = 0;
 let bestScore = Number(localStorage.getItem('flappyBirdBestScore')) || 0;
 let animationFrame = 0;
 let clouds = [];
+let pipes = [];
 
 const bird = {
     x: 50,
@@ -18,7 +19,6 @@ const bird = {
     jump: -7
 };
 
-let pipes = [];
 const pipeWidth = 60;
 const pipeGap = 250;
 const pipeSpeed = 2;
@@ -26,10 +26,21 @@ const pipeFrequency = 600;
 
 const scoreEl = document.getElementById('score');
 const bestScoreEl = document.getElementById('bestScore');
+const fullscreenBtn = document.getElementById('fullscreenBtn');
 const gameOverScreen = document.getElementById('gameOverScreen');
 
 bestScoreEl.textContent = bestScore;
 document.getElementById('bestScoreFinal').textContent = bestScore;
+
+function toggleFullscreen() {
+    if (!document.fullscreenElement) {
+        if (document.documentElement.requestFullscreen) {
+            document.documentElement.requestFullscreen().catch(() => {});
+        }
+    } else if (document.exitFullscreen) {
+        document.exitFullscreen();
+    }
+}
 
 function initClouds() {
     return [
@@ -60,6 +71,11 @@ function startGame() {
     gameOverScreen.style.display = 'none';
     scoreEl.textContent = score;
     animateScore();
+
+    if (document.documentElement.requestFullscreen) {
+        document.documentElement.requestFullscreen().catch(() => {});
+    }
+
     gameLoop();
 }
 
@@ -72,6 +88,10 @@ function jumpBird(event) {
     if (gameRunning && !gameOver) bird.velocity = bird.jump;
 }
 
+fullscreenBtn.addEventListener('click', () => {
+    toggleFullscreen();
+});
+
 document.getElementById('startBtn').addEventListener('click', startGame);
 document.getElementById('restartBtn').addEventListener('click', restartGame);
 document.getElementById('playAgainBtn').addEventListener('click', restartGame);
@@ -79,6 +99,7 @@ canvas.addEventListener('click', jumpBird);
 canvas.addEventListener('touchstart', jumpBird, { passive: false });
 document.addEventListener('keydown', (event) => {
     if (event.code === 'Space') jumpBird(event);
+    if (event.code === 'KeyF') toggleFullscreen();
 });
 
 function drawBackground() {
