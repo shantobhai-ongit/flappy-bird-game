@@ -12,16 +12,37 @@ body {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     font-family: 'Arial', sans-serif;
     padding: 20px;
+    animation: backgroundShift 10s ease-in-out infinite alternate;
+}
+
+@keyframes backgroundShift {
+    0% {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+    100% {
+        background: linear-gradient(135deg, #4f46e5 0%, #ec4899 100%);
+    }
 }
 
 .container {
-    background: white;
-    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 24px;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
     padding: 30px;
     text-align: center;
     max-width: 500px;
     width: 100%;
+    animation: floatCard 4s ease-in-out infinite;
+    backdrop-filter: blur(10px);
+}
+
+@keyframes floatCard {
+    0%, 100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-8px);
+    }
 }
 
 h1 {
@@ -29,6 +50,18 @@ h1 {
     margin-bottom: 20px;
     font-size: 2.5em;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    animation: titleGlow 2s ease-in-out infinite alternate;
+}
+
+@keyframes titleGlow {
+    from {
+        transform: scale(1);
+        text-shadow: 0 0 0 rgba(102, 126, 234, 0);
+    }
+    to {
+        transform: scale(1.05);
+        text-shadow: 0 0 18px rgba(102, 126, 234, 0.35);
+    }
 }
 
 .game-info {
@@ -41,6 +74,26 @@ h1 {
 
 .score, .best-score {
     color: #667eea;
+    transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.score-pop {
+    animation: scorePop 0.4s ease;
+}
+
+@keyframes scorePop {
+    0% {
+        transform: scale(1);
+        color: #667eea;
+    }
+    50% {
+        transform: scale(1.4);
+        color: #f59e0b;
+    }
+    100% {
+        transform: scale(1);
+        color: #667eea;
+    }
 }
 
 #gameCanvas {
@@ -53,6 +106,16 @@ h1 {
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
     max-width: 100%;
     height: auto;
+    animation: canvasGlow 3s ease-in-out infinite alternate;
+}
+
+@keyframes canvasGlow {
+    from {
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+    to {
+        box-shadow: 0 10px 25px rgba(96, 165, 250, 0.45);
+    }
 }
 
 .instructions {
@@ -63,6 +126,16 @@ h1 {
     color: #666;
     margin-bottom: 15px;
     font-size: 1.1em;
+    animation: textPulse 2s ease-in-out infinite;
+}
+
+@keyframes textPulse {
+    0%, 100% {
+        opacity: 0.8;
+    }
+    50% {
+        opacity: 1;
+    }
 }
 
 .btn {
@@ -76,10 +149,23 @@ h1 {
     margin: 5px;
     transition: transform 0.2s, box-shadow 0.2s;
     font-weight: bold;
+    box-shadow: 0 10px 20px rgba(102, 126, 234, 0.25);
+    animation: btnPulse 2s ease-in-out infinite;
+}
+
+@keyframes btnPulse {
+    0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 10px 20px rgba(102, 126, 234, 0.25);
+    }
+    50% {
+        transform: scale(1.04);
+        box-shadow: 0 15px 30px rgba(102, 126, 234, 0.4);
+    }
 }
 
 .btn:hover {
-    transform: translateY(-2px);
+    transform: translateY(-2px) scale(1.02);
     box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
 }
 
@@ -106,7 +192,7 @@ h1 {
     border-radius: 20px;
     text-align: center;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-    animation: slideIn 0.3s ease-out;
+    animation: slideIn 0.3s ease-out, shakeCard 0.5s ease-in-out infinite alternate;
 }
 
 @keyframes slideIn {
@@ -120,10 +206,29 @@ h1 {
     }
 }
 
+@keyframes shakeCard {
+    from {
+        transform: rotate(-1deg) scale(1);
+    }
+    to {
+        transform: rotate(1deg) scale(1.02);
+    }
+}
+
 .game-over-content h2 {
     color: #e74c3c;
     font-size: 2em;
     margin-bottom: 20px;
+    animation: titleBounce 0.8s ease-in-out infinite alternate;
+}
+
+@keyframes titleBounce {
+    from {
+        transform: translateY(0);
+    }
+    to {
+        transform: translateY(-6px);
+    }
 }
 
 .game-over-content p {
